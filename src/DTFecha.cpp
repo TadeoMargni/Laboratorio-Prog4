@@ -1,19 +1,29 @@
+// codigo p2
+#include "DTFecha.h"
+#include <sstream>
 
-class DTFecha{
-    private:
-        int dia;
-        int mes;
-        int año;
+DTFecha::DTFecha(){
+    this->dia=0;
+    this->mes=0;
+    this->anio=0;
+    }
 
-    public:
-        DTFecha(){
-            this->año=año;
-            this->dia=dia;
-            this->mes=mes;
-        }
+DTFecha::DTFecha(int dia, int mes, int anio){
+    this->dia = dia;
+    this->mes = mes;
+    this->anio = anio;
+}
 
-        ~DTFecha();
+string DTFecha::toString() {
+    ostringstream oss;
+    oss << dia << "/" << mes << "/" << anio;
+    return oss.str();
+}
 
-        DTFecha getFecha(DTFecha A){return A;}
-    
-};
+bool DTFecha::esMayorQue(DTFecha f)
+{
+    return ((this->anio > f.anio) ||
+        ((this->anio == f.anio) && (this->mes > f.mes)) ||
+        ((this->anio == f.anio) && (this->mes == f.mes) && (this->dia > f.dia)));
+}
+

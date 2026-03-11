@@ -5,15 +5,14 @@
 #include <string>
 #include <set>
 #include "DTFecha.h"
-using namespace std;
 
 class TourGuiado: public Experiencia {
     private:
         string agencia;
-        set<string> lugaresVisitados;
+        std::set<std::string> lugaresVisitados;
     public:
         // falto constructor
-        TourGuiado(string codigoReserva, string descripcion, int precioBase, DTFecha* fecha, string agencia, set<string> lugaresVisitados);
+        TourGuiado(std::string codigoReserva, std::string descripcion, int precioBase, DTFecha* fecha, std::string agencia, std::set<std::string> lugaresVisitados);
         float CalcularCosto();
 
 

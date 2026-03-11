@@ -4,7 +4,6 @@
 #define DTFECHA_H
 
 #include <string>
-using namespace std;
 
 class DTFecha {
     private:
@@ -13,7 +12,7 @@ class DTFecha {
         int anio;
     public:
         DTFecha();
-        string toString();
+        std::string toString();
         bool esMayorQue(DTFecha fecha);
         DTFecha(int dia, int mes, int anio);
 };
