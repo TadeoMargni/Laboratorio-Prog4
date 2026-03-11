@@ -14,7 +14,7 @@ DTFecha::DTFecha(int dia, int mes, int anio){
     this->anio = anio;
 }
 
-string DTFecha::toString() {
+std::string DTFecha::toString() {
     ostringstream oss;
     oss << dia << "/" << mes << "/" << anio;
     return oss.str();
