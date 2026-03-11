@@ -1,22 +1,26 @@
-#ifndef ALOJAMIENTO
-#define ALOJAMIENTO
+#ifndef ALOJAMIENTO_H
+#define ALOJAMIENTO_H
 
 #include "Experiencia.h"
+#include "DTFecha.h"
 #include <string>
+#include <set>
+using namespace std;
 
 enum TipoRegimen {
     AllInclusive,
     MediaPension
-
 };
 
 class Alojamiento: public Experiencia {
     private:
-        std::string hotel;
-        enum TipoRegimen regimen;
+        string hotel;
+        TipoRegimen regimen;
         int cantNoches;
     public:
-        float CalcularCosto();
+        // falto constructor
+        Alojamiento(string codigoReserva, string descripcion, int precioBase, DTFecha* fecha, string hotel, TipoRegimen regimen, int cantNoches);
+        float calcularCosto();
 };
 
 #endif

@@ -1,16 +1,20 @@
-#ifndef EVENTOCULTURAL
-#define EVENTOCULTURAL
+#ifndef EVENTOCULTURAL_H
+#define EVENTOCULTURAL_H
 
 #include "Experiencia.h"
 #include <string>
-
+#include <set>
+#include "DTFecha.h"
+using namespace std;
 
 class EventoCultural: public Experiencia {
     private:
-        std::string ubicacion;
+        string ubicacion;
         bool usoCupon;
     public:
-        float CalcularCosto();
+        // falto constructor
+        EventoCultural(string codigoReserva, string descripcion, int precioBase, DTFecha* fecha, string ubicacion, bool usoCupon);
+        float calcularCosto();
 
 
 };
