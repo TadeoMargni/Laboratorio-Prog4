@@ -5,29 +5,28 @@
 #include <set>
 #include <list>
 #include "DTFecha.h"
-using namespace std;
 
 class Experiencia; 
 // para no tener dependecia circular
 
 class Turista{
     private:
-        string ci;
-        string nombre;
-        string email;
-        list<Experiencia*> experiencias;
+        std::string ci;
+        std::string nombre;
+        std::string email;
+        std::list<Experiencia*> experiencias;
     public:
-        Turista(string ci, string nombre, string email);
+        Turista(std::string ci, std::string nombre, std::string email);
 
         ~Turista();
 
-        string toString();
+        std::string toString();
 
-        string getCi();
-        string getNombre();
+        std::string getCi();
+        std::string getNombre();
         void agregarExperiencia(Experiencia* e);
         void eliminarExperiencia(Experiencia* e);
-        set<string> listarExperiencias(DTFecha* desde, float min, float max);
+        std::set<std::string> listarExperiencias(DTFecha* desde, float min, float max);
 };
 
 #endif

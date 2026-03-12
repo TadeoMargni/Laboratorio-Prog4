@@ -13,7 +13,7 @@ class TourGuiado: public Experiencia {
     public:
         // falto constructor
         TourGuiado(std::string codigoReserva, std::string descripcion, int precioBase, DTFecha* fecha, std::string agencia, std::set<std::string> lugaresVisitados);
-        float CalcularCosto();
+        float calcularCosto();
 
 
 };
