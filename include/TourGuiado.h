@@ -8,7 +8,7 @@
 
 class TourGuiado: public Experiencia {
     private:
-        string agencia;
+        std::string agencia;
         std::set<std::string> lugaresVisitados;
     public:
         // falto constructor

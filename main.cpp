@@ -1,13 +1,14 @@
 #include <iostream>
 #include <list>
 #include <map>
-#include "Experiencia.h"
-#include "Turista.h"
-#include "Alojamiento.h"
-#include "TourGuiado.h"
-#include "EventoCultural.h"
-#include "DTFecha.h"
-#include "DTExpe.h"
+#include <set>
+#include "include/Experiencia.h"
+#include "include/Turista.h"
+#include "include/Alojamiento.h"
+#include "include/TourGuiado.h"
+#include "include/EventoCultural.h"
+#include "include/DTFecha.h"
+#include "include/DTExpe.h"
 
 std::list<Experiencia*> experiencias;
 std::map<std::string, Experiencia*> map_experiencias;
@@ -44,7 +45,7 @@ void parte_a(){
 
 	// codigoReserva: ALX5489 -- descripcion: Hotel Moderno -- precioBase: 30 -- fecha: 18/05/2020 -- hotel: Hotel Lindorf -- regimen: AllInclusive -- cantNoches: 5
 	Alojamiento* a1 = new Alojamiento("ALX5489", "Hotel Moderno", 
-		30, new DTFecha(10, 5, 2020), "Hotel Lindorf", AllInclusive, 5);
+		30, new DTFecha(18, 5, 2020), "Hotel Lindorf", AllInclusive, 5);
 
 	// codigoReserva: ALJ4789 -- descripcion: Todas las habitaciones con vista al mar -- precioBase: 100 -- fecha: 10/02/2025 -- hotel: Hotel SeaView -- regimen: MediaPension -- cantNoches: 15
 	Alojamiento* a2 = new Alojamiento("ALJ4789", "Todas las habitaciones con vista al mar", 
@@ -58,13 +59,23 @@ void parte_a(){
 void parte_b(){
 	//Crear los siguientes Tours
 
+	//hay q hacerlo asi si no no compila en ++98
+	std::set<std::string> l1;
+	l1.insert("Plaza Independencia");
+	l1.insert("Plaza Matriz");
 	// codigoReserva: TGO4657 -- descripcion: Plazas de Montevideo -- precioBase: 10 -- fecha: 29/08/2024 -- agencia: Paseos SA -- lugaresVisitados: Plaza Independencia, Plaza Matriz
 	TourGuiado* t1 = new TourGuiado("TGO4657", "Plazas de Montevideo", 
-		10, new DTFecha(29, 8, 2024), "Paseos SA", {"Plaza Independencia", "Plaza Matriz"});
+		10, new DTFecha(29, 8, 2024), "Paseos SA", l1);
 
+	//hay q hacerlo asi si no no compila en ++98
+	std::set<std::string> l2;
+	l2.insert("Puerta de la Ciudadela");
+	l2.insert("Mausoleo");
+	l2.insert("Cabildo");
+	l2.insert("Palacio Salvo");
 	// codigoReserva: TGR3257 -- descripcion: Puntos emblematicos -- precioBase: 5 -- fecha: 29/08/2024 -- agencia: Recorre -- lugaresVisitados: Puerta de la Ciudadela, Mausoleo, Cabildo, Palacio Salvo
 	TourGuiado* t2 = new TourGuiado("TGR3257", "Puntos emblematicos", 
-		5, new DTFecha(29, 8, 2024), "Recorre", {"Puerta de la Ciudadela", "Mausoleo", "Cabildo", "Palacio Salvo"});
+		5, new DTFecha(29, 8, 2024), "Recorre", l2);
 
 	coleccion_guardarExperiencia(t1); //Agrego los Tours a la coleccion
 	coleccion_guardarExperiencia(t2);
@@ -86,7 +97,10 @@ void parte_d(){
 	std::list<Experiencia*>::iterator it; //Creo una variable que it para iterar en la lista
 	for (it = experiencias.begin(); it != experiencias.end(); ++it) {
 		//Falta getDT, ademas en la parte_k se pide el mismo codigo pero getDT tiene que soportar turistas
-		std::cout <<  << std::endl; //Imprimo cada experiencia con salto de linea
+		DTExpe* dt = (*it)->getDT(); //agarramos la exp it y creamos dtexpe con los dtexpe de esa exp
+									// no necesita if pq no puede haber dt null aun
+		std::cout << *dt << std::endl; // imprimimos con la sobrecarga d <<
+		delete dt;		//liberamos memoria
 	}
 }
 
@@ -167,13 +181,14 @@ void parte_i(){
 		(*it) -> eliminarExperiencia(expTGR); //Elimino la experiencia de cada turista
 	}
 	coleccion_eliminarExperiencia(expTGR); //Elimino la experiencia de la coleccion
+	delete(expTGR); //liberamos memoria
 }
 
 void parte_j(){
 	//Invocar listarExperiencias(10/10/2020, 0, 1000) para Karen Santos
 	//imprimir el resultado un string por linea
 	
-	Turista* karen = coleccion_getTurista("49512789"); //Obtengo a karen
+	Turista* karen = coleccion_getTurista("15354420"); //Obtengo a karen
 	std::set<std::string> experienciasKaren = karen -> listarExperiencias(new DTFecha(10, 10, 2020), 0, 1000); //Experiencias en una lista
 	std::set<std::string>::iterator it; //Para iterar la lsita
 	for (it = experienciasKaren.begin(); it != experienciasKaren.end(); ++it) {
@@ -185,15 +200,28 @@ void parte_k(){
 	//Mismo codigo que parde d)
 	//Imprimir cada uno de los objetos Experiencias utilizando getDT()
 
-		std::list<Experiencia*>::iterator it; //Creo una variable que it para iterar en la lista
+	std::list<Experiencia*>::iterator it; //Creo una variable que it para iterar en la lista
 	for (it = experiencias.begin(); it != experiencias.end(); ++it) {
 		//Falta getDT, getDT tiene que soportar turistas
-		std::cout << (*it)->getDT()->toString() << std::endl; //Imprimo cada experiencia con salto de linea
+		DTExpe* dt = (*it)->getDT();
+		if(dt != NULL) { //luego de las partes anteriores puede q dt sea null
+			std::cout << *dt << std::endl;
+			delete dt;
+		}
 	}
 }
 
 void cleanUp(){
-	//Falta
+	//iteramos y liberamos memoria 6
+	std::list<Experiencia*>::iterator itE;
+    for(itE = experiencias.begin(); itE != experiencias.end(); ++itE){
+        delete *itE;
+    }
+
+    std::list<Turista*>::iterator itT;
+    for(itT = turistas.begin(); itT != turistas.end(); ++itT){
+        delete *itT;
+    }
 }
 
 int main() {

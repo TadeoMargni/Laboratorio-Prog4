@@ -29,3 +29,18 @@ void Turista::agregarExperiencia(Experiencia* e) {
 void Turista::eliminarExperiencia(Experiencia* e) {
     experiencias.remove(e);
 }
+
+std::set<std::string> Turista::listarExperiencias(DTFecha* desde, float min, float max) {
+    std::set<std::string> lis;
+    std::list<Experiencia*>::iterator it = experiencias.begin();
+    while (it != experiencias.end()) {
+        Experiencia* e = *it;
+        if (e->getFecha()->esMayorQue(*desde)) {
+            float costo = e->calcularCosto();
+            if (costo >= min && costo <= max)
+                lis.insert(e->getCodigoReserva());
+        }
+        ++it;
+    }
+    return lis;
+}

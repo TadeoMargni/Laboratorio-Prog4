@@ -1,23 +1,39 @@
-#include "../include/DTExpe.h"
+#include "DTExpe.h"
+#include <ostream>
 
-DTExpe::DTExpe(std::string titulo, std::string descripcion, DTFecha fecha) {
-    this->titulo = titulo;
+DTExpe::DTExpe(std::string codigoReserva, std::string descripcion, DTFecha* fecha, std::set<std::string> turistas) {
+    this->codigoReserva = codigoReserva;
     this->descripcion = descripcion;
     this->fecha = fecha;
+    this->turistas = turistas;
 }
 
-std::string DTExpe::getTitulo() {
-    return this->titulo;
-}
+DTExpe::~DTExpe() {} //agrego dest
 
-std::string DTExpe::getDescripcion() {
-    return this->descripcion;
-}
+// std::string DTExpe::getTitulo() {
+//     return this->titulo;
+// }
 
-DTFecha DTExpe::getFecha() {
-    return this->fecha;
-}
+// std::string DTExpe::getDescripcion() {
+//     return this->descripcion;
+// }
 
-std::string DTExpe::toString() {
-    return titulo + " - " + descripcion + " - " + fecha.toString();
+// DTFecha DTExpe::getFecha() {
+//     return this->fecha;
+// }
+
+// std::string DTExpe::toString() {
+//     return titulo + " - " + descripcion + " - " + fecha.toString();
+// }
+
+std::ostream& operator<<(std::ostream& os, const DTExpe& expe) {
+    os << expe.codigoReserva << "->" << expe.descripcion << "(" << expe.fecha->toString() << ")/";
+    std::set<std::string>::const_iterator it = expe.turistas.begin();
+    while (it != expe.turistas.end()) {
+        os << *it;
+        ++it;
+        if (it != expe.turistas.end())
+            os << ",";     //si quedan mas turistas pone , y sigue
+    }
+    return os;
 }

@@ -3,10 +3,10 @@
 #include "Turista.h"
 
 Experiencia::Experiencia(std::string codigoReserva, std::string descripcion, int precioBase, DTFecha* fecha){ // Se podria recibir un unico parametro de tipo DTExpe?
-    this->codigoReserva=codigoReserva;                                              // en los constructores no va set ni list ni map
+    this->codigoReserva=codigoReserva;                                              
     this->descripcion=descripcion;
     this->precioBase=precioBase;
-    this->fecha=fecha;
+    this->fecha=*fecha;
 }
 
 Experiencia::~Experiencia() {}
@@ -17,8 +17,8 @@ std::string Experiencia::getCodigoReserva(){ // Accedo al objeto implicito porqu
 
 // getDT debe devolver la descripcion
 
-DTFecha Experiencia::getFecha(){
-    return fecha;
+DTFecha* Experiencia::getFecha(){
+    return &fecha;
 }
 
 std::list<Turista*> Experiencia::getTuristas() {
@@ -37,6 +37,13 @@ void Experiencia::eliminarTurista(Turista* t) {
     turistas.remove(t);
 }
 
-// DTExpe Experiencia::getDT(); falta .h
-
+DTExpe* Experiencia::getDT() {
+    std::set<std::string> nombres;
+    std::list<Turista*>::iterator it = turistas.begin();
+    while (it != turistas.end()) {
+        nombres.insert((*it)->getNombre());
+        ++it;
+    }
+    return new DTExpe(codigoReserva, descripcion, &fecha, nombres);
+}
 
