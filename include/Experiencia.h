@@ -7,8 +7,6 @@
 #include "DTFecha.h"
 #include "DTExpe.h"
 
-// Lo movi y renombre porque creo que encaja mas con la clase Experiencia que con el datatype DTExpe, que hasta donde vi
-// su unica funcion era ser el tipo de retorno de la operacion getDT() en Experiencia
 
 class Turista;
 // para no tener dependecia circular

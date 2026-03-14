@@ -17,6 +17,11 @@ std::list<Turista*> turistas;
 std::map<std::string, Turista*> map_turistas;
 
 void coleccion_guardarExperiencia(Experiencia* exp){
+	if  (map_experiencias.count(exp->getCodigoReserva())) {
+		std::cerr << "Error: Ya existe una experiencia con el codigo de reserva " << exp->getCodigoReserva() << std::endl;
+		return;
+	}
+
 	experiencias.push_back(exp);
 	std::pair<std::string, Experiencia*> entry(exp->getCodigoReserva(), exp);
     map_experiencias.insert(entry);
@@ -27,6 +32,11 @@ void coleccion_eliminarExperiencia(Experiencia* exp){
 }
 
 void coleccion_guardarTurista(Turista* tur){
+	if  (map_turistas.count(tur->getCi())) {
+		std::cerr << "Error: Ya existe un turista con la CI " << tur->getCi() << std::endl;
+		return;
+	}
+
 	turistas.push_back(tur);
 	std::pair<std::string, Turista*> entry(tur->getCi(), tur);
     map_turistas.insert(entry);
@@ -217,11 +227,15 @@ void cleanUp(){
     for(itE = experiencias.begin(); itE != experiencias.end(); ++itE){
         delete *itE;
     }
+	experiencias.clear();
+	map_experiencias.clear();
 
     std::list<Turista*>::iterator itT;
     for(itT = turistas.begin(); itT != turistas.end(); ++itT){
         delete *itT;
     }
+	turistas.clear();
+	map_turistas.clear();
 }
 
 int main() {
