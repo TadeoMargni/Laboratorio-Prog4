@@ -2,20 +2,23 @@
 #define TOURGUIADO_H
 
 #include "Experiencia.h"
-#include <string>
-#include <set>
-#include "DTFecha.h"
 
 class TourGuiado: public Experiencia {
     private:
         std::string agencia;
         std::set<std::string> lugaresVisitados;
     public:
-        // falto constructor
-        TourGuiado(std::string codigoReserva, std::string descripcion, int precioBase, DTFecha* fecha, std::string agencia, std::set<std::string> lugaresVisitados);
+        TourGuiado(std::string, std::string, int, DTFecha*, std::string, std::set<std::string>);
+        ~TourGuiado();
+
+        std::string getAgencia();
+        std::set<std::string> getLugaresVisitados();
+
+        void setAgencia(std::string);
+        void addLugarVisitado(std::string);
+        void removeLugarVisitado(std::string);
+
         float calcularCosto();
-
-
 };
 
 #endif

@@ -1,49 +1,77 @@
-
 #include "Experiencia.h"
-#include "Turista.h"
 
-Experiencia::Experiencia(std::string codigoReserva, std::string descripcion, int precioBase, DTFecha* fecha){ // Se podria recibir un unico parametro de tipo DTExpe?
-    this->codigoReserva=codigoReserva;                                              
-    this->descripcion=descripcion;
-    this->precioBase=precioBase;
-    this->fecha=*fecha;
+
+Experiencia::Experiencia(std::string codigoReserva, std::string descripcion, int precioBase, DTFecha* fecha)
+{
+    this->codigoReserva = codigoReserva;                                              
+    this->descripcion = descripcion;
+    this->precioBase = precioBase;
+    this->fecha = fecha;
 }
-
-Experiencia::~Experiencia() {}
-
-std::string Experiencia::getCodigoReserva(){ // Accedo al objeto implicito porque esto se va a llamar directamente desde un objeto de la clase experiencia, no hace falta pasarle otro por parametro
-    return codigoReserva;
+Experiencia::~Experiencia()
+{
+    std::list<Turista*>::iterator it = this->turistas.begin();
+    while (it != this->turistas.end())
+    {
+        Turista* a_borrar = *it;
+        ++it;
+        eliminarTurista(a_borrar);
+    }
 }
-
-// getDT debe devolver la descripcion
-
-DTFecha* Experiencia::getFecha(){
-    return &fecha;
+std::string Experiencia::getCodigoReserva()
+{
+    return this->codigoReserva;
 }
-
-std::list<Turista*> Experiencia::getTuristas() {
-    return turistas;
+std::string Experiencia::getDescripcion()
+{
+    return this->descripcion;
 }
-
-int Experiencia::getPrecioBase() {
-    return precioBase;
+DTFecha* Experiencia::getFecha()
+{
+    return this->fecha;
 }
-
-void Experiencia::agregarTurista(Turista* t) {
-    turistas.push_back(t);
+int Experiencia::getPrecioBase()
+{
+    return this->precioBase;
 }
-
-void Experiencia::eliminarTurista(Turista* t) {
-    turistas.remove(t);
+std::list<Turista*> Experiencia::getTuristas()
+{
+    return this->turistas;
 }
-
-DTExpe* Experiencia::getDT() {
+void Experiencia::setCodigoReserva(std::string c)
+{
+    this->codigoReserva = c;
+}
+void Experiencia::setDescripcion(std::string d)
+{
+    this->descripcion = d;
+}
+void Experiencia::setFecha(DTFecha* f)
+{
+    this->fecha = f;
+}
+void Experiencia::setPrecioBase(int p)
+{
+    this->precioBase = p;
+}
+void Experiencia::agregarTurista(Turista* t)
+{
+    this->turistas.push_back(t);
+}
+void Experiencia::eliminarTurista(Turista* t)
+{
+    this->turistas.remove(t);
+}
+DTExpe* Experiencia::getDT()
+{
     std::set<std::string> nombres;
-    std::list<Turista*>::iterator it = turistas.begin();
-    while (it != turistas.end()) {
+    std::list<Turista*>::iterator it = this->turistas.begin();
+    while (it != this->turistas.end())
+    {
         nombres.insert((*it)->getNombre());
         ++it;
     }
-    return new DTExpe(codigoReserva, descripcion, &fecha, nombres);
+    DTExpe* retorno = new DTExpe(this->codigoReserva, this->descripcion, this->fecha, nombres);
+    return retorno;
 }
 
