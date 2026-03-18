@@ -189,7 +189,9 @@ void parte_h(){
 	//imprimir el resultado un string por linea
 
 	Turista* vanesa = coleccion_getTurista("49512789"); //Obtengo a Vanesa
-	std::set<std::string> experienciasVanesa = vanesa -> listarExperiencias(new DTFecha(10, 12, 2023), 0, 1000); //Experiencias en una lista
+	DTFecha* fechaConsulta = new DTFecha(10, 12, 2023);
+	std::set<std::string> experienciasVanesa = vanesa -> listarExperiencias(fechaConsulta, 0, 1000); //Experiencias en una lista
+	delete fechaConsulta;
 	std::set<std::string>::iterator it; //Para iterar la lsita
 	for (it = experienciasVanesa.begin(); it != experienciasVanesa.end(); ++it) {
 		std::cout << *it << std::endl; //Imprimo cada experiencia con salto de linea
@@ -213,13 +215,16 @@ void parte_i()
 	std::cout << "Se liberó el Objeto de manera exitosa" <<  std::endl;
 }
 
+
 void parte_j()
 {
 	//Invocar listarExperiencias(10/10/2020, 0, 1000) para Karen Santos
 	//imprimir el resultado un string por linea
 	
 	Turista* karen = coleccion_getTurista("15354420"); //Obtengo a karen
-	std::set<std::string> experienciasKaren = karen -> listarExperiencias(new DTFecha(10, 10, 2020), 0, 1000); //Experiencias en una lista
+	DTFecha* fechaConsulta = new DTFecha(10, 10, 2020);
+	std::set<std::string> experienciasKaren = karen -> listarExperiencias(fechaConsulta, 0, 1000); //Experiencias en una lista
+	delete fechaConsulta;
 	std::set<std::string>::iterator it; //Para iterar la lsita
 	for (it = experienciasKaren.begin(); it != experienciasKaren.end(); ++it) {
 		std::cout << *it << std::endl; //Imprimo cada experiencia con salto de linea

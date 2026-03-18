@@ -17,6 +17,8 @@ Experiencia::~Experiencia()
         ++it;
         eliminarTurista(a_borrar);
     }
+    delete this->fecha;
+
 }
 std::string Experiencia::getCodigoReserva()
 {
