@@ -7,10 +7,7 @@ Alojamiento::Alojamiento(std::string codigoReserva, std::string descripcion, int
     this->regimen = regimen;
     this->cantNoches = cantNoches;
 }
-Alojamiento::~Alojamiento()
-{
-    ~Experiencia();
-}
+Alojamiento::~Alojamiento() {}
 std::string Alojamiento::getHotel()
 {
     return this->hotel;

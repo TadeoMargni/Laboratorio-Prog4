@@ -6,10 +6,7 @@ EventoCultural::EventoCultural(std::string codigoReserva, std::string descripcio
     this->ubicacion = ubicacion;
     this->usoCupon = usoCupon;
 }
-EventoCultural::~EventoCultural()
-{
-    ~Experiencia();
-}
+EventoCultural::~EventoCultural() {}
 std::string EventoCultural::getUbicacion()
 {
     return this->ubicacion;

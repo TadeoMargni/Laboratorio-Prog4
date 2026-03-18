@@ -6,10 +6,7 @@ TourGuiado::TourGuiado(std::string codigoReserva, std::string descripcion, int p
     this->agencia = agencia;
     this->lugaresVisitados = lugaresVisitados;
 }
-TourGuiado::~TourGuiado()
-{
-    ~Experiencia();
-}
+TourGuiado::~TourGuiado() {}
 std::string TourGuiado::getAgencia()
 {
     return this->agencia;
@@ -24,11 +21,11 @@ void TourGuiado::setAgencia(std::string a)
 }
 void TourGuiado::addLugarVisitado(std::string l)
 {
-    this->lugaresVisitados.push_back(l);
+    this->lugaresVisitados.insert(l);
 }
 void TourGuiado::removeLugarVisitado(std::string l)
 {
-    this->lugaresVisitados.remove(l);
+    this->lugaresVisitados.erase(l);
 }
 float TourGuiado::calcularCosto()
 {

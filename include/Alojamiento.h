@@ -4,8 +4,8 @@
 #include "Experiencia.h"
 
 enum TipoRegimen {
-    AllInclusive,
-    MediaPension
+    AllInclusive = 1,
+    MediaPension = 2
 };
 
 class Alojamiento: public Experiencia {
