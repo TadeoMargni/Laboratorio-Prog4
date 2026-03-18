@@ -1,42 +1,43 @@
 #ifndef EXPERIENCIA_H
 #define EXPERIENCIA_H
 
+#include "DTFecha.h"
+#include "DTExpe.h"
+#include "Turista.h"
 #include <string>
 #include <set>
 #include <list>
-#include "DTFecha.h"
-#include "DTExpe.h"
 
 
 class Turista;
-// para no tener dependecia circular
 
-class Experiencia{
+class Experiencia
+{
     private:
         std::string codigoReserva;
         std::string descripcion;
-        DTFecha fecha;
+        DTFecha* fecha;
         int precioBase;
-        // falto precio base
-        // es lista no set, no nos importa el orden
-        std::list<Turista*> turistas; //no se si podemos usar set o tenemos que alterar turista para poderlos manipluar en una lista dinamica, para preguntar
+        std::list<Turista*> turistas;
     public:
-        Experiencia(std::string codigoReserva, std::string descripcion, int precioBase, DTFecha* fecha);
-
+        Experiencia(std::string, std::string, int, DTFecha*);
         virtual ~Experiencia();
-
+        
         std::string getCodigoReserva();
-
+        std::string getDescripcion();
         DTFecha* getFecha();
         int getPrecioBase();
         std::list<Turista*> getTuristas();
 
+        void setCodigoReserva(std::string);        
+        void setDescripcion(std::string);
+        void setFecha(DTFecha*);
+        void setPrecioBase(int);
+        void agregarTurista(Turista*);
+        void eliminarTurista(Turista*);
+        
         DTExpe* getDT();
-
-        virtual float calcularCosto() = 0; // Operacion abstracta para que la clase Experencia sea abstracta
-        // agrego funciones que faltan
-        void agregarTurista(Turista* t);
-        void eliminarTurista(Turista* t);
+        virtual float calcularCosto() = 0;
 };
 
 #endif

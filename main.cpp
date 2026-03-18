@@ -50,7 +50,8 @@ Experiencia* coleccion_getExperiencia(std::string codigoReserva){
 	return map_experiencias[codigoReserva];
 }
 
-void parte_a(){
+void parte_a()
+{
 	//Crear los siguientes Alojamientos
 
 	// codigoReserva: ALX5489 -- descripcion: Hotel Moderno -- precioBase: 30 -- fecha: 18/05/2020 -- hotel: Hotel Lindorf -- regimen: AllInclusive -- cantNoches: 5
@@ -64,9 +65,11 @@ void parte_a(){
 	coleccion_guardarExperiencia(a1);
 	coleccion_guardarExperiencia(a2);
 
+	std::cout << "Se crearon los Alojamientos de manera exitosa" <<  std::endl;
 	}
 
-void parte_b(){
+void parte_b()
+{
 	//Crear los siguientes Tours
 
 	//hay q hacerlo asi si no no compila en ++98
@@ -89,18 +92,24 @@ void parte_b(){
 
 	coleccion_guardarExperiencia(t1); //Agrego los Tours a la coleccion
 	coleccion_guardarExperiencia(t2);
+
+	std::cout << "Se crearon los Tours de manera exitosa" <<  std::endl;
 }
 
-void parte_c(){
+void parte_c()
+{
 	//Crear el siguiente Evento
 
 	// codigoReserva: ECP1346 -- descripcion: Danza en el Solis -- precioBase: 10 -- fecha: 29/10/2025 -- ubicacion: Teatro Solis -- usoCupon: true
 	EventoCultural* e1 = new EventoCultural("ECP1346", "Danza en el Solis", 10, new DTFecha(29, 10, 2025), "Teatro Solis", true);
 
 	coleccion_guardarExperiencia(e1); //Agrego los Eventos a la coleccion
+	
+	std::cout << "Se creó el Evento de manera exitosa" <<  std::endl;
 }
 
-void parte_d(){
+void parte_d()
+{
 	//Imprimir cada uno de los objetos Experiencias utilizando getDT()
 	//Sin turistas
 
@@ -114,7 +123,8 @@ void parte_d(){
 	}
 }
 
-void parte_e(){
+void parte_e()
+{
 	//Crear los siguientes Turistas
 
 	//ci: 49512789 -- nombre: Vanesa Castro -- email: vcastro.uy@servidor.net
@@ -125,9 +135,12 @@ void parte_e(){
 
 	coleccion_guardarTurista(tur1); //Agrego Turistas a la coleccion
 	coleccion_guardarTurista(tur2);
+
+	std::cout << "Se crearon los Turistas de manera exitosa" <<  std::endl;
 }
 
-void parte_f(){
+void parte_f()
+{
 	//Imprimir cada uno de los Turistas utilizando toString()
 
 	std::list<Turista*>::iterator it; //Para iterar
@@ -136,7 +149,8 @@ void parte_f(){
 	}
 }
 
-void parte_g(){
+void parte_g()
+{
 	//Registrar relaciones entre turistas y experiencias
 
 	//4.951.278-9 (Vanesa Castro) - ALX5489 - ALJ4789 - TGR3257 - ECP1346
@@ -166,6 +180,8 @@ void parte_g(){
 
 	expTGO -> agregarTurista(tur2); //Agrego Karen a las experiencias
 	expTGR -> agregarTurista(tur2);
+
+	std::cout << "Se relacionaron los Turistas y Experiencias de manera exitosa" <<  std::endl;
 }
 
 void parte_h(){
@@ -180,7 +196,8 @@ void parte_h(){
 	}
 }
 
-void parte_i(){
+void parte_i()
+{
 	//Eliminar el objeto TGR3257 (Puntos emblematicos) de Experiencia
 
 	Experiencia* expTGR = coleccion_getExperiencia("TGR3257"); //Obtengo la experiencia a eliminar
@@ -192,9 +209,12 @@ void parte_i(){
 	}
 	coleccion_eliminarExperiencia(expTGR); //Elimino la experiencia de la coleccion
 	delete(expTGR); //liberamos memoria
+
+	std::cout << "Se liberó el Objeto de manera exitosa" <<  std::endl;
 }
 
-void parte_j(){
+void parte_j()
+{
 	//Invocar listarExperiencias(10/10/2020, 0, 1000) para Karen Santos
 	//imprimir el resultado un string por linea
 	
@@ -206,7 +226,8 @@ void parte_j(){
 	}
 }
 
-void parte_k(){
+void parte_k()
+{
 	//Mismo codigo que parde d)
 	//Imprimir cada uno de los objetos Experiencias utilizando getDT()
 
@@ -221,7 +242,8 @@ void parte_k(){
 	}
 }
 
-void cleanUp(){
+void cleanUp()
+{
 	//iteramos y liberamos memoria 6
 	std::list<Experiencia*>::iterator itE;
     for(itE = experiencias.begin(); itE != experiencias.end(); ++itE){
@@ -236,34 +258,36 @@ void cleanUp(){
     }
 	turistas.clear();
 	map_turistas.clear();
+
+	std::cout << "Se completó la limpieza de manera exitosa" <<  std::endl;
 }
 
-int main() {
-	std::cout << "parte_a" <<  std::endl;
+int main()
+{
+	std::cout << "Parte A: " << std::endl;
 	parte_a();
-	std::cout << "parte_b" <<  std::endl;
+	std::cout << "Parte B: " << std::endl;
 	parte_b();
-	std::cout << "parte_c" <<  std::endl;
+	std::cout << "Parte C: " << std::endl;
 	parte_c();
-	std::cout << "parte_d" <<  std::endl;
+	std::cout << "Parte D: " << std::endl;
 	parte_d();
-	std::cout << "parte_e" <<  std::endl;
+	std::cout << "Parte E: " << std::endl;
 	parte_e();
-	std::cout << "parte_f" <<  std::endl;
+	std::cout << "Parte F: " << std::endl;
 	parte_f();
-	std::cout << "parte_g" <<  std::endl;
+	std::cout << "Parte G: " << std::endl;
 	parte_g();
-	std::cout << "parte_h" <<  std::endl;
+	std::cout << "Parte H: " << std::endl;
 	parte_h();
-	std::cout << "parte_i" <<  std::endl;
+	std::cout << "Parte I: " << std::endl;
 	parte_i();
-	std::cout << "parte_j" <<  std::endl;
+	std::cout << "Parte J: " << std::endl;
 	parte_j();
-	std::cout << "parte_k" <<  std::endl;
+	std::cout << "Parte K: " << std::endl;
 	parte_k();
-	std::cout << "cleanUp" <<  std::endl;
+	std::cout << "Clean Up: " << std::endl;
 	cleanUp();
-	std::cout << "fin" <<  std::endl;
-
+	std::cout << "Fin" <<  std::endl;
 	return 0;
 }

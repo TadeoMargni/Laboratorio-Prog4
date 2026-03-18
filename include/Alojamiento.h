@@ -2,13 +2,10 @@
 #define ALOJAMIENTO_H
 
 #include "Experiencia.h"
-#include "DTFecha.h"
-#include <string>
-#include <set>
 
 enum TipoRegimen {
-    AllInclusive,
-    MediaPension
+    AllInclusive = 1,
+    MediaPension = 2
 };
 
 class Alojamiento: public Experiencia {
@@ -17,8 +14,17 @@ class Alojamiento: public Experiencia {
         TipoRegimen regimen;
         int cantNoches;
     public:
-        // falto constructor
-        Alojamiento(std::string codigoReserva, std::string descripcion, int precioBase, DTFecha* fecha, std::string hotel, TipoRegimen regimen, int cantNoches);
+        Alojamiento(std::string, std::string, int, DTFecha*, std::string, TipoRegimen, int);
+        ~Alojamiento();
+
+        std::string getHotel();
+        TipoRegimen getRegimen();
+        int getCantNoches();
+
+        void setHotel(std::string);
+        void setRegimen(TipoRegimen);
+        void setCantNoches(int);
+
         float calcularCosto();
 };
 
