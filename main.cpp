@@ -44,9 +44,9 @@ void coleccion_eliminarExperiencia(Experiencia* exp){
 		(*it) -> eliminarExperiencia(exp); //  Elimino la experiencia de cada turista
 	}
 	experiencias.remove(exp); // Elimino la experiencia de la coleccion
-	map_experiencias.erase(exp->getCodigoReserva()); 
+	map_experiencias.erase(exp->getCodigoReserva());
 	delete(exp); //liberamos memoria
-	
+
 }
 
 void coleccion_guardarTurista(Turista* tur){
@@ -62,7 +62,7 @@ void coleccion_guardarTurista(Turista* tur){
 
 void coleccion_eliminarTurista(Turista* tur){
 	std::list<Experiencia*> experienciasTur = tur -> getExperiencias(); // Obtengo las experiencias del turista
-	std::list<Experiencia*>::iterator it; //Para iterar 
+	std::list<Experiencia*>::iterator it; //Para iterar
     for (it = experienciasTur.begin(); it != experienciasTur.end(); ++it) {
         (*it) -> eliminarTurista(tur); // Elimino el turista de cada experiencia
     }
@@ -77,7 +77,7 @@ void coleccion_vincularTuristayExperiencia(Turista* tur, Experiencia* exp){
 }
 
 void coleccion_desvincularTuristayExperiencia(Turista* tur, Experiencia* exp){
-	
+
 	std::list<Turista*> turistasExp = exp -> getTuristas();
 	std::list<Experiencia*> experienciasTur = tur -> getExperiencias();
 	const bool pertenece = experienciasTur.end() != std::find(experienciasTur.begin(), experienciasTur.end(), exp);
@@ -97,11 +97,11 @@ void parte_a(){
 	//Crear los siguientes Alojamientos
 
 	// codigoReserva: ALX5489 -- descripcion: Hotel Moderno -- precioBase: 30 -- fecha: 18/05/2020 -- hotel: Hotel Lindorf -- regimen: AllInclusive -- cantNoches: 5
-	Alojamiento* a1 = new Alojamiento("ALX5489", "Hotel Moderno", 
+	Alojamiento* a1 = new Alojamiento("ALX5489", "Hotel Moderno",
 		30, new DTFecha(18, 5, 2020), "Hotel Lindorf", AllInclusive, 5);
 
 	// codigoReserva: ALJ4789 -- descripcion: Todas las habitaciones con vista al mar -- precioBase: 100 -- fecha: 10/02/2025 -- hotel: Hotel SeaView -- regimen: MediaPension -- cantNoches: 15
-	Alojamiento* a2 = new Alojamiento("ALJ4789", "Todas las habitaciones con vista al mar", 
+	Alojamiento* a2 = new Alojamiento("ALJ4789", "Todas las habitaciones con vista al mar",
 		100, new DTFecha(10, 2, 2025), "Hotel SeaView", MediaPension, 15);
 
 
@@ -118,7 +118,7 @@ void parte_b(){
 	l1.insert("Plaza Independencia");
 	l1.insert("Plaza Matriz");
 	// codigoReserva: TGO4657 -- descripcion: Plazas de Montevideo -- precioBase: 10 -- fecha: 29/08/2024 -- agencia: Paseos SA -- lugaresVisitados: Plaza Independencia, Plaza Matriz
-	TourGuiado* t1 = new TourGuiado("TGO4657", "Plazas de Montevideo", 
+	TourGuiado* t1 = new TourGuiado("TGO4657", "Plazas de Montevideo",
 		10, new DTFecha(29, 8, 2024), "Paseos SA", l1);
 
 	//hay q hacerlo asi si no no compila en ++98
@@ -128,7 +128,7 @@ void parte_b(){
 	l2.insert("Cabildo");
 	l2.insert("Palacio Salvo");
 	// codigoReserva: TGR3257 -- descripcion: Puntos emblematicos -- precioBase: 5 -- fecha: 29/08/2024 -- agencia: Recorre -- lugaresVisitados: Puerta de la Ciudadela, Mausoleo, Cabildo, Palacio Salvo
-	TourGuiado* t2 = new TourGuiado("TGR3257", "Puntos emblematicos", 
+	TourGuiado* t2 = new TourGuiado("TGR3257", "Puntos emblematicos",
 		5, new DTFecha(29, 8, 2024), "Recorre", l2);
 
 	coleccion_guardarExperiencia(t1); //Agrego los Tours a la coleccion
@@ -224,13 +224,13 @@ void parte_i(){
 	Experiencia* exp = coleccion_getExperiencia("TGR3257");
 
 	coleccion_eliminarExperiencia(exp); //Elimino la experiencia de la coleccion
-	
+
 }
 
 void parte_j(){
 	//Invocar listarExperiencias(10/10/2020, 0, 1000) para Karen Santos
 	//imprimir el resultado un string por linea
-	
+
 	Turista* karen = coleccion_getTurista("15354420"); //Obtengo a karen
 	DTFecha* fechaConsulta = new DTFecha(10, 10, 2020);
 	std::set<std::string> experienciasKaren = karen -> listarExperiencias(fechaConsulta, 0, 1000); //Experiencias en una lista
@@ -288,7 +288,7 @@ int main() {
 	parte_f();
 	std::cout << "parte_g" <<  std::endl;
 	parte_g();
-	std::cout << "parte_g2" <<  std::endl;
+	std::cout << "parte_h" <<  std::endl;
 	parte_h();
 	std::cout << "parte_i" <<  std::endl;
 	parte_i();
