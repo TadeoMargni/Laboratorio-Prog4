@@ -26,6 +26,7 @@ class Turista{
         std::string getNombre();
         void agregarExperiencia(Experiencia* e);
         void eliminarExperiencia(Experiencia* e);
+        std::list<Experiencia*> getExperiencias();
         std::set<std::string> listarExperiencias(DTFecha* desde, float min, float max);
 };
 

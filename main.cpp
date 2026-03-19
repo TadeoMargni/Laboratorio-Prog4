@@ -2,6 +2,7 @@
 #include <list>
 #include <map>
 #include <set>
+#include <algorithm>
 #include "include/Experiencia.h"
 #include "include/Turista.h"
 #include "include/Alojamiento.h"
@@ -26,9 +27,26 @@ void coleccion_guardarExperiencia(Experiencia* exp){
 	std::pair<std::string, Experiencia*> entry(exp->getCodigoReserva(), exp);
     map_experiencias.insert(entry);
 }
+
+Turista* coleccion_getTurista(std::string ci){
+	return map_turistas[ci];
+}
+
+Experiencia* coleccion_getExperiencia(std::string codigoReserva){
+	return map_experiencias[codigoReserva];
+}
+
 void coleccion_eliminarExperiencia(Experiencia* exp){
-	experiencias.remove(exp);
-	map_experiencias.erase(exp->getCodigoReserva());
+
+	std::list<Turista*> turistasEXP = exp -> getTuristas(); // Obtengo los turistas en la experiencia
+	std::list<Turista*>::iterator it; //Para iterar
+	for (it = turistasEXP.begin(); it != turistasEXP.end(); ++it) {
+		(*it) -> eliminarExperiencia(exp); //  Elimino la experiencia de cada turista
+	}
+	experiencias.remove(exp); // Elimino la experiencia de la coleccion
+	map_experiencias.erase(exp->getCodigoReserva()); 
+	delete(exp); //liberamos memoria
+	
 }
 
 void coleccion_guardarTurista(Turista* tur){
@@ -42,16 +60,40 @@ void coleccion_guardarTurista(Turista* tur){
     map_turistas.insert(entry);
 }
 
-Turista* coleccion_getTurista(std::string ci){
-	return map_turistas[ci];
+void coleccion_eliminarTurista(Turista* tur){
+	std::list<Experiencia*> experienciasTur = tur -> getExperiencias(); // Obtengo las experiencias del turista
+	std::list<Experiencia*>::iterator it; //Para iterar 
+    for (it = experienciasTur.begin(); it != experienciasTur.end(); ++it) {
+        (*it) -> eliminarTurista(tur); // Elimino el turista de cada experiencia
+    }
+    turistas.remove(tur); // Elimino el turista de la coleccion
+    map_turistas.erase(tur->getCi());
+    delete(tur);
 }
 
-Experiencia* coleccion_getExperiencia(std::string codigoReserva){
-	return map_experiencias[codigoReserva];
+void coleccion_vincularTuristayExperiencia(Turista* tur, Experiencia* exp){
+	tur -> agregarExperiencia(exp);
+	exp -> agregarTurista(tur);
 }
 
-void parte_a()
-{
+void coleccion_desvincularTuristayExperiencia(Turista* tur, Experiencia* exp){
+	
+	std::list<Turista*> turistasExp = exp -> getTuristas();
+	std::list<Experiencia*> experienciasTur = tur -> getExperiencias();
+	const bool pertenece = experienciasTur.end() != std::find(experienciasTur.begin(), experienciasTur.end(), exp);
+
+	if ((turistasExp.size() == 1) && (pertenece))  { // Turista es el unico en la experiencia se debe eliminar la misma para mantener consistencia
+		std::cout << "El turista " << tur->getNombre() << " es el unico en la experiencia " << exp->getCodigoReserva() << ". Se eliminara la experiencia." << std::endl;
+		coleccion_eliminarExperiencia(exp);
+
+	} else {
+		tur -> eliminarExperiencia(exp);
+		exp -> eliminarTurista(tur);
+	}
+}
+
+
+void parte_a(){
 	//Crear los siguientes Alojamientos
 
 	// codigoReserva: ALX5489 -- descripcion: Hotel Moderno -- precioBase: 30 -- fecha: 18/05/2020 -- hotel: Hotel Lindorf -- regimen: AllInclusive -- cantNoches: 5
@@ -62,14 +104,13 @@ void parte_a()
 	Alojamiento* a2 = new Alojamiento("ALJ4789", "Todas las habitaciones con vista al mar", 
 		100, new DTFecha(10, 2, 2025), "Hotel SeaView", MediaPension, 15);
 
+
 	coleccion_guardarExperiencia(a1);
 	coleccion_guardarExperiencia(a2);
 
-	std::cout << "Se crearon los Alojamientos de manera exitosa" <<  std::endl;
 	}
 
-void parte_b()
-{
+void parte_b(){
 	//Crear los siguientes Tours
 
 	//hay q hacerlo asi si no no compila en ++98
@@ -92,24 +133,18 @@ void parte_b()
 
 	coleccion_guardarExperiencia(t1); //Agrego los Tours a la coleccion
 	coleccion_guardarExperiencia(t2);
-
-	std::cout << "Se crearon los Tours de manera exitosa" <<  std::endl;
 }
 
-void parte_c()
-{
+void parte_c(){
 	//Crear el siguiente Evento
 
 	// codigoReserva: ECP1346 -- descripcion: Danza en el Solis -- precioBase: 10 -- fecha: 29/10/2025 -- ubicacion: Teatro Solis -- usoCupon: true
 	EventoCultural* e1 = new EventoCultural("ECP1346", "Danza en el Solis", 10, new DTFecha(29, 10, 2025), "Teatro Solis", true);
 
 	coleccion_guardarExperiencia(e1); //Agrego los Eventos a la coleccion
-	
-	std::cout << "Se creó el Evento de manera exitosa" <<  std::endl;
 }
 
-void parte_d()
-{
+void parte_d(){
 	//Imprimir cada uno de los objetos Experiencias utilizando getDT()
 	//Sin turistas
 
@@ -123,8 +158,7 @@ void parte_d()
 	}
 }
 
-void parte_e()
-{
+void parte_e(){
 	//Crear los siguientes Turistas
 
 	//ci: 49512789 -- nombre: Vanesa Castro -- email: vcastro.uy@servidor.net
@@ -135,12 +169,9 @@ void parte_e()
 
 	coleccion_guardarTurista(tur1); //Agrego Turistas a la coleccion
 	coleccion_guardarTurista(tur2);
-
-	std::cout << "Se crearon los Turistas de manera exitosa" <<  std::endl;
 }
 
-void parte_f()
-{
+void parte_f(){
 	//Imprimir cada uno de los Turistas utilizando toString()
 
 	std::list<Turista*>::iterator it; //Para iterar
@@ -149,8 +180,7 @@ void parte_f()
 	}
 }
 
-void parte_g()
-{
+void parte_g(){
 	//Registrar relaciones entre turistas y experiencias
 
 	//4.951.278-9 (Vanesa Castro) - ALX5489 - ALJ4789 - TGR3257 - ECP1346
@@ -165,23 +195,13 @@ void parte_g()
 	Experiencia* expECP = coleccion_getExperiencia("ECP1346");
 	Experiencia* expTGO = coleccion_getExperiencia("TGO4657");
 
-	tur1 -> agregarExperiencia(expALX); //Agrego experiencias a Vanesa
-	tur1 -> agregarExperiencia(expALJ);
-	tur1 -> agregarExperiencia(expTGR);
-	tur1 -> agregarExperiencia(expECP);
+	coleccion_vincularTuristayExperiencia(tur1, expALX);
+	coleccion_vincularTuristayExperiencia(tur1, expALJ);
+	coleccion_vincularTuristayExperiencia(tur1, expTGR);
+	coleccion_vincularTuristayExperiencia(tur1, expECP);
 
-	tur2 -> agregarExperiencia(expTGO); //Agrego experiencias a Karen
-	tur2 -> agregarExperiencia(expTGR);
-
-	expALX -> agregarTurista(tur1); //Agrego Vanesa a las experiencias
-	expALJ -> agregarTurista(tur1);
-	expTGR -> agregarTurista(tur1);
-	expECP -> agregarTurista(tur1);
-
-	expTGO -> agregarTurista(tur2); //Agrego Karen a las experiencias
-	expTGR -> agregarTurista(tur2);
-
-	std::cout << "Se relacionaron los Turistas y Experiencias de manera exitosa" <<  std::endl;
+	coleccion_vincularTuristayExperiencia(tur2, expTGO);
+	coleccion_vincularTuristayExperiencia(tur2, expTGR);
 }
 
 void parte_h(){
@@ -198,26 +218,16 @@ void parte_h(){
 	}
 }
 
-void parte_i()
-{
+void parte_i(){
 	//Eliminar el objeto TGR3257 (Puntos emblematicos) de Experiencia
 
-	Experiencia* expTGR = coleccion_getExperiencia("TGR3257"); //Obtengo la experiencia a eliminar
+	Experiencia* exp = coleccion_getExperiencia("TGR3257");
 
-	std::list<Turista*> turistasTGR = expTGR -> getTuristas(); //Obtengo los turistas en la experiencia
-	std::list<Turista*>::iterator it; //Para iterar
-	for (it = turistasTGR.begin(); it != turistasTGR.end(); ++it) {
-		(*it) -> eliminarExperiencia(expTGR); //Elimino la experiencia de cada turista
-	}
-	coleccion_eliminarExperiencia(expTGR); //Elimino la experiencia de la coleccion
-	delete(expTGR); //liberamos memoria
-
-	std::cout << "Se liberó el Objeto de manera exitosa" <<  std::endl;
+	coleccion_eliminarExperiencia(exp); //Elimino la experiencia de la coleccion
+	
 }
 
-
-void parte_j()
-{
+void parte_j(){
 	//Invocar listarExperiencias(10/10/2020, 0, 1000) para Karen Santos
 	//imprimir el resultado un string por linea
 	
@@ -231,8 +241,7 @@ void parte_j()
 	}
 }
 
-void parte_k()
-{
+void parte_k(){
 	//Mismo codigo que parde d)
 	//Imprimir cada uno de los objetos Experiencias utilizando getDT()
 
@@ -247,8 +256,7 @@ void parte_k()
 	}
 }
 
-void cleanUp()
-{
+void cleanUp(){
 	//iteramos y liberamos memoria 6
 	std::list<Experiencia*>::iterator itE;
     for(itE = experiencias.begin(); itE != experiencias.end(); ++itE){
@@ -263,36 +271,36 @@ void cleanUp()
     }
 	turistas.clear();
 	map_turistas.clear();
-
-	std::cout << "Se completó la limpieza de manera exitosa" <<  std::endl;
 }
 
-int main()
-{
-	std::cout << "Parte A: " << std::endl;
+int main() {
+	std::cout << "parte_a" <<  std::endl;
 	parte_a();
-	std::cout << "Parte B: " << std::endl;
+	std::cout << "parte_b" <<  std::endl;
 	parte_b();
-	std::cout << "Parte C: " << std::endl;
+	std::cout << "parte_c" <<  std::endl;
 	parte_c();
-	std::cout << "Parte D: " << std::endl;
+	std::cout << "parte_d" <<  std::endl;
 	parte_d();
-	std::cout << "Parte E: " << std::endl;
+	std::cout << "parte_e" <<  std::endl;
 	parte_e();
-	std::cout << "Parte F: " << std::endl;
+	std::cout << "parte_f" <<  std::endl;
 	parte_f();
-	std::cout << "Parte G: " << std::endl;
+	std::cout << "parte_g" <<  std::endl;
 	parte_g();
-	std::cout << "Parte H: " << std::endl;
+	std::cout << "parte_g2" <<  std::endl;
 	parte_h();
-	std::cout << "Parte I: " << std::endl;
+	std::cout << "parte_i" <<  std::endl;
 	parte_i();
-	std::cout << "Parte J: " << std::endl;
+	std::cout << "parte_j" <<  std::endl;
 	parte_j();
-	std::cout << "Parte K: " << std::endl;
+	std::cout << "parte_k" <<  std::endl;
 	parte_k();
-	std::cout << "Clean Up: " << std::endl;
+	std::cout << "parte_test_vincular_desvincular" <<  std::endl;
+	parte_test_vincular_desvincular();
+	std::cout << "cleanUp" <<  std::endl;
 	cleanUp();
-	std::cout << "Fin" <<  std::endl;
+	std::cout << "fin" <<  std::endl;
+
 	return 0;
 }

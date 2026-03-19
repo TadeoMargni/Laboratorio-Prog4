@@ -30,6 +30,10 @@ void Turista::eliminarExperiencia(Experiencia* e) {
     experiencias.remove(e);
 }
 
+std::list<Experiencia*> Turista::getExperiencias() {
+    return this->experiencias;
+}
+
 std::set<std::string> Turista::listarExperiencias(DTFecha* desde, float min, float max) {
     std::set<std::string> lis;
     std::list<Experiencia*>::iterator it = experiencias.begin();
