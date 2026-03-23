@@ -296,8 +296,6 @@ int main() {
 	parte_j();
 	std::cout << "parte_k" <<  std::endl;
 	parte_k();
-	std::cout << "parte_test_vincular_desvincular" <<  std::endl;
-	parte_test_vincular_desvincular();
 	std::cout << "cleanUp" <<  std::endl;
 	cleanUp();
 	std::cout << "fin" <<  std::endl;
